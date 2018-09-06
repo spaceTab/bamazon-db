@@ -16,7 +16,8 @@ CREATE TABLE products (
     primary key (item_id)
 );
 
-/* inserts values into products table -> values added by order of column*/
+/* inserts values into products table -> values added by order of column (populates)*/
+
 /* my recent amazon purchases */
 INSERT INTO products(product_name, department_name, item_price, stock_quantity)
     VALUES ('Etnies', 'clothing', '49.95', '100'),
