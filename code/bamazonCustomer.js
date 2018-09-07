@@ -58,49 +58,57 @@ const DISPLAY_ALL = () => {
 
 //Prompts user to input the item, and quantity that they would like to buy from DB
 const GET_ORDER = () => {
-    inquirer.prompt([
-        {
-            name: "item_id",
-            type: "input",
-            message: "Enter the Item Id of the item you're looking for: "
-        }, {
-            name: "quantity",
-            type: "input",
-            message: "How many items would you like to purchase: "
-        },
-    ]).then(data => {
-        let item = data.item_id; //checks usr input compares id to DB.
-        //console.log(data + '\n' + resp.length);
-        connection.query        //moved down cause small screen
-            (`SELECT * FROM products WHERE item_id=${item}`,
-            (error, response) => {
-                if (error) throw error;
-                //console.log(`Error!: ${error}`);
-                //console.log(response);
-
-                let usrAmount = data.quantity;                 //Amount user wants
-                let usrItem = response[0].product_name;      //name of item
-                let dbStock = response[0].stock_quantity;  //checks if in stock
-                let itemPrice = response[0].item_price;     //checks item price
-
-                if (usrAmount <= dbStock) {
-                    itemPrice *= usrAmount; //calculates the cost for amount purchased
-                    let updatedQuant = dbStock - usrAmount;
-                    console.log(`you just purchased:${usrAmount}`);
-                    UPDATE_DB(updatedQuant, item);
-                } else {
-                    console.log('There isn\'t enough in stock');
-                    RE_PROMPT()
+    connection.query(`SELECT * FROM products`, (error, resp) => {
+        inquirer.prompt([
+            {
+                name: "item_id",
+                type: "input",
+                message: "Enter the Item Id of the item you're looking for: ",
+                validate: (value) => {
+                    if (value > resp.length) {
+                        console.log(" \n We don\'t have that product!")
+                        console.log("Please try again")
+                    } else {
+                        return true;
+                    }
                 }
+            }, {
+                name: "quantity",
+                type: "input",
+                message: "How many items would you like to purchase: "
+            },
+        ]).then(data => {
+            let item = data.item_id; //checks usr input compares id to DB.
 
+            connection.query        //moved down cause small screen
+                (`SELECT * FROM products WHERE item_id=${item}`,
+                (error, response) => {
+                    if (error) throw error;
+                    //console.log(`Error!: ${error}`);
+                    //console.log(response);
 
-            });
+                    let usrAmount = data.quantity;                 //Amount user wants
+                    let usrItem   = response[0].product_name;      //name of item
+                    let dbStock   = response[0].stock_quantity;  //checks if in stock
+                    let itemPrice = response[0].item_price;     //checks item price
+
+                    if (usrAmount <= dbStock) {
+                        itemPrice *= usrAmount; //calculates the cost for amount purchased
+                        let updatedQuant = dbStock - usrAmount;
+                        console.log(`you just purchased:${usrAmount}`);
+                        UPDATE_DB(updatedQuant, item);
+                    } else {
+                        console.log('There isn\'t enough in stock');
+                        REPROMPT();
+                    }
+                })
+        });
     });
 }
 
 
 //little function to allow for a 'retry' on a invalid purchase order.
-const RE_PROMPT = () => {
+const REPROMPT = () => {
     console.log(`Reprompting for purchase`);
     GET_ORDER(); //calls function to restart order
 }
