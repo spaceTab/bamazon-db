@@ -13,7 +13,7 @@ CREATE TABLE products (
     stock_quantity  INTEGER(200)  NOT NULL,
     
     /* assigns primary key to item_id column */
-    primary key (item_id)
+    PRIMARY KEY (item_id)
 );
 
 /* inserts values into products table -> values added by order of column (populates)*/
@@ -23,7 +23,7 @@ INSERT INTO products(product_name, department_name, item_price, stock_quantity)
     VALUES ('Etnies', 'clothing', '49.95', '100'),
            ('speakerbox', 'technologies', '8.95', '179'),
            ('Song of fire & ice', 'books', '50.00', '35'),
-           ('shinRamen', 'food', '8.99', '200'),
+           ('shinRamen', 'foods', '8.99', '200'),
            ('velocifire keyboard', 'technologies', '25.99', '123'),
            ('tabasco', 'foods', '3.99', '200'),
            ('lobster toy', 'pet accessories', '13.85', '89'),

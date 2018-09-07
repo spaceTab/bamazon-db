@@ -52,10 +52,8 @@ const DISPLAY_TABLE = () => {
 
 }
 
-
-
 const REPOPULATE_DB = () => {
-   // DISPLAY_TABLE();
+    // DISPLAY_TABLE();
     inquirer.prompt([
         {
             name: "populate",
@@ -63,7 +61,8 @@ const REPOPULATE_DB = () => {
             choices: [
                 "Restock",
                 "Add Item",
-                "Remove Item"
+                "Remove Item",
+                "Low Stock"
             ]
         }
     ]).then(choice => {
@@ -81,6 +80,10 @@ const REPOPULATE_DB = () => {
             case "Remove Item":
                 console.log("What Item would you like to remove?");
                 REMOVE_FROM_DB();
+                break;
+            case "Low Stock":
+                console.log("Checking for items with less than 5 left");
+                LOW_STOCK();
                 break;
             default:
                 console.log("Please Choose from the \n Available options");
@@ -103,8 +106,8 @@ const RESTOCK_DB = (item, quantity) => {
             message: "How many would you like to add?: "
         }
     ]).then(data => {
-        let dataItem  = data.item; 
-        let addItem   = data.amount; 
+        let dataItem = data.item;
+        let addItem = data.amount;
 
         connect.query(`SELECT * FROM products WHERE item_id=${dataItem}`, (error, element) => {
             if (error) throw error;
@@ -113,8 +116,8 @@ const RESTOCK_DB = (item, quantity) => {
             console.log(`Item: ${dataItem} has been restocked by: ${addItem}`);
 
             DISPLAY_TABLE();
-
         });
+        ANOTHER_QUERY();
     })
 }
 
@@ -125,13 +128,15 @@ const REMOVE_FROM_DB = () => {
             type: "input",
             message: "Enter the Item ID of the item you'd like to remove: "
         }
-    ]).then( data => {
+    ]).then(data => {
         let removal = data.item;
 
         connect.query(`DELETE * FROM products WHERE item_id=${removal}`);
         console.log(`${removal} is now removed from Database`);
 
         DISPLAY_TABLE();
+
+        ANOTHER_QUERY();
     })
 
 }
@@ -167,5 +172,67 @@ const ADD_TO_DB = () => {
             VALUES (${item},${depart}, ${price}, ${quantity}`);
 
         DISPLAY_TABLE();
+
+        ANOTHER_QUERY();
     })
 }
+
+const LOW_STOCK = () => {
+    connect.query(`SELECT * FROM products WHERE stock_quantity <= 5`)
+    connect.query(`SELECT * FROM products WHERE stock_quantity <= 5`, (error, response) => {
+        console.log('\n Items with 5 or less in stock \n')
+
+        let table = new Table({
+            head: [  //setting the db values to correct 
+                'Item_ID',
+                'Product Name',
+                'Department',
+                'Price',
+                'Quantity'
+            ],
+            colWidth: ['15', '50', '50', '15', '15']
+        })
+
+        for (i = 0; i < response.length; i++) {
+            table.push([
+                response[i].item_id,
+                response[i].product_name,
+                response[i].department_name,
+                response[i].price,
+                response[i].quantity,
+            ]);
+        }
+        console.log(table.toString());
+
+        
+    })
+    ANOTHER_QUERY();
+}
+
+const ANOTHER_QUERY = () => {
+    inquirer.prompt([
+        {
+            name:    "requery",
+            type:    "list",
+            message: "would you like to check something else?",
+            choices: ['Yes', 'No']
+        }
+    ]).then( answer => {
+      
+        switch(answer.requer){
+            case "Yes":
+                console.log('Sending you to menu \n');
+                REPOPULATE_DB();
+                break;
+            case "No":
+                console.log('Thank you come again!');
+                connect.end();
+                break;
+            default:
+                connect.end();
+        }
+
+    })
+}
+
+DISPLAY_TABLE();

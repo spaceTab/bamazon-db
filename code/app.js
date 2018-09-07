@@ -3,55 +3,24 @@ const figlet   = require("figlet");
 
 //other files
 const Manager    = require("./bamazonManager.js");
-const Customer   = require("./bamazonCustomer.js");
-//const SuperVisor = require("./bamazon");
+//const customer   = require("./bamazonCustomer.js");
 
-const GREET = () => {
-    figlet('Welcome to BAMAZON', {
-        horizontalLayout: 'default',
-        verticalLayout: 'default',
-    }, function (error, response) {
-        if (error) return console.log(`ERROR: ${error}`);
 
-        console.log(response);
-    });
-}
-
-const USR_SELECT = () => {
-    GREET();
+const SELECT = () => {
     inquirer.prompt([
         {
-            type: "list",
-            name: "status",
-            message: "What is your Bamazon Status?: ",
+            name:    'select',
+            type:    'list',
+            message: 'whats your status?',
             choices: [
-                "Customer",
-                "Manager",
-                "Supervisor"
+                'Customer',
+                'Manager',
+                'Supervisor'
             ]
         }
-    ]).then(response => {
-        let usrStatus = response.status;
-
-        switch (usrStatus) {
-            case "Customer":
-                Customer.DISPLAY_TABLE();
-                break;
-            case "Manager":
-
-                break;
-            case "Supervisor":
-
-                break;
-            default:
-                console.log(`That's not an available option \n Try again!`);
-                REPROMPT();
-                break;
-        }
+    ]).then ( response => {
+        console.log('here');
     })
 }
 
-const REPROMPT = () => {
-    console.log(`Lets Try this again!`);
-    USR_SELECT();
-}
+SELECT();

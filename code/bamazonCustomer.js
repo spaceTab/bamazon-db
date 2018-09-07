@@ -6,8 +6,8 @@ const Table = require("cli-table");
 
 //Information needed to connect to DB
 const connection = mysql.createConnection({
-    host:     "localhost",
-    user:     "root",//process.env.DB_USER,
+    host: "localhost",
+    user: "root",//process.env.DB_USER,
     password: "SuperSecretPasswordHere",//process.env.DB_PASS,
     database: "bamazon"
 });
@@ -70,7 +70,7 @@ const GET_ORDER = () => {
         },
     ]).then(data => {
         let item = data.item_id; //checks usr input compares id to DB.
-        console.log(data + '\n' + resp.length);
+        //console.log(data + '\n' + resp.length);
         connection.query        //moved down cause small screen
             (`SELECT * FROM products WHERE item_id=${item}`,
             (error, response) => {
@@ -112,66 +112,30 @@ const UPDATE_DB = (updatedQuant, item) => {
             if (error) throw error;
 
             console.log(`The stock amount is now:${updatedQuant}`);
-            console.log('Thanks for shopping Bamazon!\nwhere we care about small business');
 
-            connection.end //End connection to database. 
-            console.log(`Ending user connection at: ${connection.threadId}`);
+            inquirer.prompt([
+                {
+                    name: "again",
+                    type: "list",
+                    message: "Continue Shopping?",
+                    choices: ["Yes", "No"]
+                }
+            ]).then(answer => {
+
+                switch (answer.again) {
+                    case "Yes":
+                        GET_ORDER();
+                        break;
+                    case "No":
+                        console.log('Thanks for shopping Bamazon!\nwhere we care about small business');
+
+                        connection.end //End connection to database. 
+                        console.log(`Ending user connection at: ${connection.threadId}`);
+                        break;
+                    default:
+                        console.log('Goodbye');
+                        connection.end;
+                }
+            })
         });
-
 }
-// const REPOPULATE_DB = () => {
-//     inquirer.prompt([
-//         {
-//             name: "populate",
-//             type: "list",
-//             choices: [
-//                 "Restock",
-//                 "Add Item",
-//                 "Remove Item"
-//             ]
-//         }
-//     ]).then(choice => {
-
-//         //switch statement to determine which option usr chose.
-//         switch (choice.populate) {
-//             case "Restock":
-//                 console.log("Sending restock options");
-//                 RESTOCK_DB();
-//                 break;
-//             case "Add Item":
-//                 console.log("What Item would you like to add?");
-//                 ADD_TO_DB();
-//                 break;
-//             case "Remove Item":
-//                 console.log("What Item would you like to remove?");
-//                 REMOVE_FROM_DB();
-//                 break;
-//             default:
-//                 console.log("Please Choose from the \n Available options");
-//                 console.log("& Thank you for shopping Bamazon.");
-//                 break;
-//         }
-//     })
-// }
-
-// const RESTOCK_DB = () => {
-//     //prompt for restock options
-//     inquirer.prompt([
-//         {
-//             name: "item",
-//             type: "input",
-//             message: "Enter the item you'd like to restock: "
-//         }, {
-//             name: "amount",
-//             type: "input",
-//             message: "How many would you like to add?: "
-//         }
-//     ]).then(data => {
-//         let dataItem = data.item;           //sort through db, then 
-
-//         connection.query(`SELECT * FROM products WHERE` 
-//     })
-// }}}
-
-
-//DISPLAY_ALL();

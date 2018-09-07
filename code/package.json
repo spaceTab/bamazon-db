@@ -2,7 +2,7 @@
   "name": "cli-table",
   "version": "1.0.0",
   "description": "helps prompt",
-  "main": "bamazonCustomer.js",
+  "main": "app.js",
   "dependencies": {
     "cli-table": "^0.3.1",
     "dotenv": "^6.0.0",
