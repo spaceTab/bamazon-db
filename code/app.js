@@ -2,10 +2,11 @@ const connect  = require("./connection.js");
 //const customer = require("./bamazonCustomer.js");
 //const manager  = require("./bamazonManager.js");
 const inquirer = require("inquirer");
-const figlet   = require("figlet");
 
-//other files
 
+//I had to comment out the requires for the two files because for some reason,
+//when they are at the top it's immediately execuring those files, and then prompting the user.
+//but it no longer does that when inside the switch. It's the only fix I could find.
 
 
 const SELECT = () => {
