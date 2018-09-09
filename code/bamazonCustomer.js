@@ -2,7 +2,7 @@ require("dotenv").config();
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const Table = require("cli-table");
-
+const bamazon = require("./bamazonStarter.js");
 
 //Information needed to connect to DB
 const connection = mysql.createConnection({
@@ -12,13 +12,13 @@ const connection = mysql.createConnection({
     database: "bamazon"
 });
 
-//Makes the connection to 'bamazon' database.
-connection.connect(error => {
-    if (error) throw error;
+// //Makes the connection to 'bamazon' database.
+// connection.connect(error => {
+//     if (error) throw error;
 
-    console.log(`Connected - your ID ${connection.threadId}`);
-    //DISPLAY_ALL();
-});
+//     console.log(`Connected - your ID ${connection.threadId}`);
+//     //DISPLAY_ALL();
+// });
 
 
 
@@ -162,4 +162,4 @@ const UPDATE_DB = (updatedQuant, item, newSales) => {
         });
 }
 
-module.exports.DISPLAY_ALL;
+module.exports = GET_ORDER;

@@ -105,15 +105,17 @@ const NEW_DEPARTMENT = () => {
 
                 if (!error) {
                     console.log('SUCCESS!: Department Added')
-                    connect.end();
                 } else {
                     console.log(`ERROR! : ${error}`);
                 }
             });
     });
 }
-SELECT();
-//module.exports = SELECT;
+
+
+//SELECT();
+module.exports = SELECT;
+
 
 
 

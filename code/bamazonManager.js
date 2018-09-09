@@ -184,9 +184,9 @@ const ADD_TO_DB = () => {
 
 const LOW_STOCK = () => {
 
-    connect.query(`SELECT * FROM products WHERE stock_quantity <= 5`, (error, response) => {
+    connect.query(`SELECT * FROM products WHERE stock_quantity <= 5`, (error, data) => {
         console.log('\n Items with 5 or less in stock \n')
-
+        console.log(data);
         let table = new Table({
             head: [  //setting the db values to correct 
                 'Item_ID',
@@ -198,7 +198,7 @@ const LOW_STOCK = () => {
             colWidth: ['15', '50', '50', '15', '15']
         })
 
-        for (i = 0; i < response.length; i++) {
+        for (i = 0; i < data.length; i++) {
             table.push([
                 response[i].item_id,
                 response[i].product_name,
@@ -221,23 +221,22 @@ const ANOTHER_QUERY = () => {
             message: "would you like to check something else?",
             choices: ['Yes', 'No']
         }
-    ]).then( answer => {
+    ]).then( response => {
         //connection.end();
-        switch(answer.requery){
+        switch(response.requery){
             case "Yes":
-                
                 console.log('Sending you to menu \n');
                 REPOPULATE_DB();
                 break;
             case "No":
                 console.log('Thank you come again!');
-                connect.end();
+                //connect.end();
                 break;
             default:
-                connect.end();
+//connect.end();
         }
 
     })
 }
 DISPLAY_TABLE();
-module.exports.DISPLAY_TABLE;
+module.exports = DISPLAY_TABLE;
