@@ -6,8 +6,8 @@ const Table = require("cli-table");
 
 //Information needed to connect to DB
 const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",//process.env.DB_USER,
+    host:     "localhost",
+    user:     "root",//process.env.DB_USER,
     password: "SuperSecretPasswordHere",//process.env.DB_PASS,
     database: "bamazon"
 });
@@ -17,7 +17,7 @@ connection.connect(error => {
     if (error) throw error;
 
     console.log(`Connected - your ID ${connection.threadId}`);
-    DISPLAY_ALL();
+    //DISPLAY_ALL();
 });
 
 
@@ -61,8 +61,8 @@ const GET_ORDER = () => {
     connection.query(`SELECT * FROM products`, (error, resp) => {
         inquirer.prompt([
             {
-                name: "item_id",
-                type: "input",
+                name:    "item_id",
+                type:    "input",
                 message: "Enter the Item Id of the item you're looking for: ",
                 validate: (value) => {
                     if (value > resp.length) {
@@ -73,8 +73,8 @@ const GET_ORDER = () => {
                     }
                 }
             }, {
-                name: "quantity",
-                type: "input",
+                name:    "quantity",
+                type:    "input",
                 message: "How many items would you like to purchase: "
             },
         ]).then(data => {
@@ -91,15 +91,25 @@ const GET_ORDER = () => {
                     let usrItem   = response[0].product_name;      //name of item
                     let dbStock   = response[0].stock_quantity;  //checks if in stock
                     let itemPrice = response[0].item_price;     //checks item price
+                    let sales = parseInt(response[0].product_sales);
 
-                    if (usrAmount <= dbStock) {
-                        itemPrice *= usrAmount; //calculates the cost for amount purchased
-                        let updatedQuant = dbStock - usrAmount;
-                        console.log(`you just purchased:${usrAmount}`);
-                        UPDATE_DB(updatedQuant, item);
-                    } else {
-                        console.log('There isn\'t enough in stock');
-                        REPROMPT();
+                    switch(usrAmount <= dbStock) {
+                        case true:    
+                            itemPrice *= usrAmount; //calculates the cost for amount purchased
+                            let updatedQuant = dbStock - usrAmount;
+                            let newSales = (sales+itemPrice).toFixed(2);
+
+                            console.log(`you just purchased:${usrAmount}`);
+                            UPDATE_DB(updatedQuant, item, newSales);
+                            break;
+                        case false:
+                            console.log('There isn\'t enough in stock');
+                            REPROMPT();
+                            break;
+                        default:
+                            console.log('You can\'t be here!');
+                            REPROMPT();
+                            break;
                     }
                 })
         });
@@ -113,9 +123,14 @@ const REPROMPT = () => {
     GET_ORDER(); //calls function to restart order
 }
 
-const UPDATE_DB = (updatedQuant, item) => {
-    connection.query(`UPDATE products SET stock_quantity = ? WHERE ?`,
-        [[updatedQuant], { item_id: item }],
+const UPDATE_DB = (updatedQuant, item, newSales) => {
+    connection.query(`UPDATE products SET ? WHERE ?`, [
+        {
+            stock_quantity: updatedQuant,
+            product_sales: newSales
+        }, {
+            item_id: item
+        }],
         (error, response) => {
             if (error) throw error;
 
@@ -136,14 +151,15 @@ const UPDATE_DB = (updatedQuant, item) => {
                         break;
                     case "No":
                         console.log('Thanks for shopping Bamazon!\nwhere we care about small business');
-
-                        connection.end //End connection to database. 
+                        connection.end(); //End connection to database. 
                         console.log(`Ending user connection at: ${connection.threadId}`);
                         break;
                     default:
                         console.log('Goodbye');
-                        connection.end;
+                        connection.end();
                 }
             })
         });
 }
+
+module.exports.DISPLAY_ALL;

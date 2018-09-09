@@ -1,7 +1,8 @@
-const connect  = require("./connection.js");
-//const customer = require("./bamazonCustomer.js");
-//const manager  = require("./bamazonManager.js");
-const inquirer = require("inquirer");
+const connect    = require("./connection.js");
+const Customer   = require("./bamazonCustomer.js");
+const Manager    = require("./bamazonManager.js");
+const Supervisor = require("./bamazonSupervisor.js");
+const inquirer   = require("inquirer");
 
 
 //I had to comment out the requires for the two files because for some reason,
@@ -28,11 +29,14 @@ const SELECT = () => {
         switch(usrSelect) {
             case "customer":
                 //const customer = require("./bamazonCustomer.js");
-                customer.DISPLAY_ALL();
+                Customer.DISPLAY_ALL();
                 break;
             case "manager":
                 //const manager = require("./bamazonManager.js");
-                manager.DISPLAY_TABLE();
+                Manager.DISPLAY_TABLE();
+                break;
+            case "supervisor":
+                Supervisor.SELECT();
                 break;
             default:
                 console.log("Invalid Selection! \n Please Try again!")

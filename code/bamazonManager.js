@@ -131,7 +131,7 @@ const REMOVE_FROM_DB = () => {
     ]).then(data => {
         let removal = data.item;
 
-        connect.query(`DELETE * FROM products WHERE item_id=${removal}`);
+        connect.query(`DELETE FROM products WHERE item_id=${removal}`);
         console.log(`${removal} is now removed from Database`);
 
         DISPLAY_TABLE();
@@ -149,7 +149,7 @@ const ADD_TO_DB = () => {
             type: "input",
             message: "Name the item you'd like to add: "
         }, {
-            name: "deparment",
+            name: "department",
             type: "input",
             message: "name the correct department for this product"
         }, {
@@ -167,18 +167,23 @@ const ADD_TO_DB = () => {
         let price = answer.price;
         let quantity = answer.quantity;
 
-        connection.query
-            (`INSERT INTO products (item_id, department_name, price, stock_quantity 
-            VALUES (${item},${depart}, ${price}, ${quantity}`);
-
-        DISPLAY_TABLE();
-
+        connect.query
+            (`INSERT INTO products SET ? `, 
+            {
+                product_name: item,
+                department_name: depart,
+                item_price: price,
+                stock_quantity: quantity
+            }, (error, response) => {
+               console.log(`You added ${quantity} ${item}'s at a price of ${price} in the ${depart} department `);
+               DISPLAY_TABLE();
+            });
         ANOTHER_QUERY();
     })
 }
 
 const LOW_STOCK = () => {
-    connect.query(`SELECT * FROM products WHERE stock_quantity <= 5`)
+
     connect.query(`SELECT * FROM products WHERE stock_quantity <= 5`, (error, response) => {
         console.log('\n Items with 5 or less in stock \n')
 
@@ -198,12 +203,11 @@ const LOW_STOCK = () => {
                 response[i].item_id,
                 response[i].product_name,
                 response[i].department_name,
-                response[i].price,
-                response[i].quantity,
+                response[i].item_price,
+                response[i].stock_quantity,
             ]);
         }
         console.log(table.toString());
-
         
     })
     ANOTHER_QUERY();
@@ -218,9 +222,10 @@ const ANOTHER_QUERY = () => {
             choices: ['Yes', 'No']
         }
     ]).then( answer => {
-      
-        switch(answer.requer){
+        //connection.end();
+        switch(answer.requery){
             case "Yes":
+                
                 console.log('Sending you to menu \n');
                 REPOPULATE_DB();
                 break;
@@ -234,5 +239,5 @@ const ANOTHER_QUERY = () => {
 
     })
 }
-
 DISPLAY_TABLE();
+module.exports.DISPLAY_TABLE;

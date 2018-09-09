@@ -11,6 +11,7 @@ CREATE TABLE products (
     department_name VARCHAR(40) NOT NULL,
     item_price      DECIMAL(10,2) NOT NULL,
     stock_quantity  INTEGER(200)  NOT NULL,
+    product_sales   DECIMAL(10,2) DEFAULT 0 NOT NULL,
     
     /* assigns primary key to item_id column */
     PRIMARY KEY (item_id)
@@ -20,15 +21,15 @@ CREATE TABLE products (
 
 /* my recent amazon purchases */
 INSERT INTO products(product_name, department_name, item_price, stock_quantity)
-    VALUES ('Etnies', 'clothing', '49.95', '100'),
-           ('speakerbox', 'technologies', '8.95', '179'),
-           ('Song of fire & ice', 'books', '50.00', '35'),
-           ('shinRamen', 'foods', '8.99', '200'),
-           ('velocifire keyboard', 'technologies', '25.99', '123'),
-           ('tabasco', 'foods', '3.99', '200'),
-           ('lobster toy', 'pet accessories', '13.85', '89'),
-           ('leather color', 'pet accessories', '9.99', '15'),
-           ('HDMI cord', 'phone accessories', '2.99', '200'),
-           ('guide to shell-scripts', 'books', '19.89', '10'),
-           ('twizzlers LARGE', 'foods', '12.50', '200'),
-           ('Neon Genesis-Poster', 'artwork', '15.00', '5')
+    VALUES ('Etnies', 'clothing', 49.95, 100),
+           ('speakerbox', 'technologies', 8.95, 179),
+           ('Song of fire & ice', 'books', 50.00, 35),
+           ('shinRamen', 'foods', 8.99, 200),
+           ('velocifire keyboard', 'technologies', 25.99, 123),
+           ('tabasco', 'foods', 3.99, 200),
+           ('lobster toy', 'pet accessories', 13.85, 89),
+           ('leather color', 'pet accessories', 9.99, 15),
+           ('HDMI cord', 'phone accessories', 2.99, 200),
+           ('guide to shell-scripts', 'books', 19.89, 10),
+           ('twizzlers LARGE', 'foods', 12.50, 200),
+           ('Neon Genesis-Poster', 'artwork', 15.00, 5)
