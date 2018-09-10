@@ -1,7 +1,41 @@
 # Bamazon online shopping
 ## An interactive shopping application made with _mySql_ & _node.js_ allowing users to to pick from three different categories **Customer, Manager, Supervisor**. Each category gives the user a different options to choose from.
 
-<video width="320" height="240" controls>
-  <source src="images/customer.mov" type="video/mp4">
-</video>
+# Customer Page
+### The customer page gives the user the option to choose which file they will run at the very beginning. Letting them decide between the Customer, Manager, and Supervisor optionsallows for the user to purchase an item, from the displayed items. Showing how many the user bought, and what is left in stock. After purchasing it the user is then prompted to see if they would like to make a purchase. This continues until the user says no to making another purchase.
+![customer](./code/images/customer_1.gif)
 
+# Manager Page
+### The manager page, gives the user 4 options, Restock item, add item, remove item, and check for items with a stock less than 5. The restock option allows user to select a pre-existing item within the database, and add a specified amount of stock to it. The add item allows the user to add a completely new item into the database. Setting it's name, price, stock quantity. The remove item allows the user to specify the item id of a pre-existing item in the database, and remove it. The low stock option will display a table of all the items with in the with a stock amount that is less than 5. 
+![mangager](./code/images/manager.gif)
+
+# Supervisor Page
+
+### The supervisor allows the user to add a new department into the database, as well as to look at the total profits of each item with in the database. The total profits column is added dynamically. 
+![supervisor](./code/images/supervisor.gif)
+
+# Bamazon Starter Page
+### the Bamazon Starter page, if ran gives the user a beggining prompt, that allows them to choose between the 3 of the files. So they can decide whether they would like to use the Customer, Manager, or the Supervisor page.
+
+
+
+
+# Technologies used: 
+* Node.js
+* sql & mySQL workbench
+## NPM installs
+* mySQL
+* inquierer
+* cli-table
+
+# How to use
+
+* Clone repo onto your local machine & enter its the directory
+* run the command _vagrant up_ and once that is completed _vagrant ssh_
+* then navigate to the code directory by running _cd /var/code/_
+* once in that directory you can begin testing the app by running _node bamazonStarter_
+
+* If you would like to test each page individually, run these commands
+* _node bamazonCustomer.js_   :: For Customer Page
+* _node bamazonManager.js_   :: For Manager Page
+* _node bamazonSupervisor.js_:: For Supervisor Page
