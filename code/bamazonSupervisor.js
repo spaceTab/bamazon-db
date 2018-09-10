@@ -12,12 +12,12 @@ const connect = mysql.createConnection({
     database: "bamazon"
 });
 
-connect.connect(error => {
-    if (error) throw error;
+// connect.connect(error => {
+//     if (error) throw error;
 
-    console.log(`Connected - your ID ${connect.threadId}`);
-    //DISPLAY_ALL();
-})
+//     console.log(`Connected - your ID ${connect.threadId}`);
+//     //DISPLAY_ALL();
+// })
 
 const SELECT = () => {
     inquirer.prompt([
@@ -58,7 +58,8 @@ const VIEW_SALES = () => {
                 'Department ID',
                 'Department Name',
                 'Overhead Costs',
-                'Total Sales'
+                'Total Sales',
+                'Total Profit'
             ]
         });
 
@@ -73,6 +74,7 @@ const VIEW_SALES = () => {
             table.push([id, name, overhead, sales, total]);
         })
         console.log(table.toString());
+        REPROMPT();
     })
 
 };
@@ -102,16 +104,46 @@ const NEW_DEPARTMENT = () => {
             department_name: answer.department,
             overhead_cost: answer.overhead
         }, (error, result) => {
-
+            let depart = answer.department;
+            let overhead = answer.overhead;
                 if (!error) {
-                    console.log('SUCCESS!: Department Added')
+                    console.log(`SUCCESS\nDepartment ${depart} Added`);
+                    console.log(`With an overhead of: $${overhead}`);
                 } else {
                     console.log(`ERROR! : ${error}`);
                 }
             });
+            REPROMPT();
     });
 }
 
+const REPROMPT = () => {
+    inquirer.prompt([
+        {
+            name: 'prompt',
+            type: 'list', 
+            message: 'would you like to continue?',
+            choices: ['Yes', 'No']
+        }
+    ]).then( data => {
+        let answer = data.prompt;
+
+        switch(answer){
+            case "Yes":
+                console.log("reprompting");
+                SELECT();
+                break;
+            case "No":
+                console.log("Have a nice day!")
+                connect.end();
+                break;
+            default:
+                console.log("ending connection");
+                connect.end();
+                break;
+        }
+    })
+}
 
 //SELECT();
 module.exports = SELECT;

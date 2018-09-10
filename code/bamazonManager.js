@@ -12,11 +12,11 @@ const connect = mysql.createConnection({
     database: "bamazon"
 })
 
-connect.connect(error => {
-    if (error) throw error;
+// connect.connect(error => {
+//     if (error) throw error;
 
-    console.log(`Connected at:${connect.threadID}`);
-});
+//     console.log(`Connected at:${connect.threadID}`);
+// });
 
 const DISPLAY_TABLE = () => {
     connect.query(`SELECT * FROM products`, (error, response) => {
@@ -168,15 +168,15 @@ const ADD_TO_DB = () => {
         let quantity = answer.quantity;
 
         connect.query
-            (`INSERT INTO products SET ? `, 
+            (`INSERT INTO products SET ? `,
             {
                 product_name: item,
                 department_name: depart,
                 item_price: price,
                 stock_quantity: quantity
             }, (error, response) => {
-               console.log(`You added ${quantity} ${item}'s at a price of ${price} in the ${depart} department `);
-               DISPLAY_TABLE();
+                console.log(`You added ${quantity} ${item}'s at a price of ${price} in the ${depart} department `);
+                DISPLAY_TABLE();
             });
         ANOTHER_QUERY();
     })
@@ -184,9 +184,9 @@ const ADD_TO_DB = () => {
 
 const LOW_STOCK = () => {
 
-    connect.query(`SELECT * FROM products WHERE stock_quantity <= 5`, (error, data) => {
+    connect.query(`SELECT * FROM products WHERE stock_quantity <= 5`, (error, response) => {
         console.log('\n Items with 5 or less in stock \n')
-        console.log(data);
+        // console.log(response);
         let table = new Table({
             head: [  //setting the db values to correct 
                 'Item_ID',
@@ -198,7 +198,7 @@ const LOW_STOCK = () => {
             colWidth: ['15', '50', '50', '15', '15']
         })
 
-        for (i = 0; i < data.length; i++) {
+        for (i = 0; i < response.length; i++) {
             table.push([
                 response[i].item_id,
                 response[i].product_name,
@@ -208,22 +208,22 @@ const LOW_STOCK = () => {
             ]);
         }
         console.log(table.toString());
-        
+        ANOTHER_QUERY();
     })
-    ANOTHER_QUERY();
+
 }
 
 const ANOTHER_QUERY = () => {
     inquirer.prompt([
         {
-            name:    "requery",
-            type:    "list",
+            name: "requery",
+            type: "list",
             message: "would you like to check something else?",
             choices: ['Yes', 'No']
         }
-    ]).then( response => {
+    ]).then(response => {
         //connection.end();
-        switch(response.requery){
+        switch (response.requery) {
             case "Yes":
                 console.log('Sending you to menu \n');
                 REPOPULATE_DB();
@@ -233,10 +233,12 @@ const ANOTHER_QUERY = () => {
                 //connect.end();
                 break;
             default:
-//connect.end();
+                //connect.end();
+                console.log("good day");
+                break;
         }
 
     })
 }
-DISPLAY_TABLE();
+//DISPLAY_TABLE();
 module.exports = DISPLAY_TABLE;

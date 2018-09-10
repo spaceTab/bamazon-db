@@ -1,4 +1,4 @@
-const connect    = require("./connection.js");
+//const connect    = require("./connection.js");
 const Customer   = require("./bamazonCustomer.js");
 const Manager    = require("./bamazonManager.js");
 const Supervisor = require("./bamazonSupervisor.js");
@@ -18,12 +18,12 @@ const connection = mysql.createConnection({
 });
 
 //Makes the connection to 'bamazon' database.
-connection.connect(error => {
-    if (error) throw error;
+// connection.connect(error => {
+//     if (error) throw error;
 
-    console.log(`Connected - your ID ${connection.threadId}`);
-    //DISPLAY_ALL();
-});
+//     console.log(`Connected - your ID ${connection.threadId}`);
+ 
+// });
 
 const SELECT = () => {
     inquirer.prompt([
@@ -31,11 +31,7 @@ const SELECT = () => {
             name:    'select',
             type:    'list',
             message: 'whats your status?',
-            choices: [
-                'customer',
-                'manager',
-                'supervisor'
-            ]
+            choices: ['customer','manager','supervisor']
         }
     ]).then ( response => {
 
@@ -56,6 +52,7 @@ const SELECT = () => {
             default:
                 console.log("Invalid Selection! \n Please Try again!")
                 REPROMPT();
+                break;
         }
     })
 }
