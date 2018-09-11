@@ -50,6 +50,6 @@
 * _node bamazonManager.js_     :: For Manager Page
 * _node bamazonSupervisor.js_ :: For Supervisor Page
 
-# Developed by
+### Developed by
 ###### Jake Plaisted
 ###### In September of 2018
