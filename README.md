@@ -22,23 +22,31 @@
 
 # Technologies used: 
 * Node.js
-* mySQL
-* mySql Workbench
-* Vagrant -> ubuntu 14.04 server
+* Javascript
+* SQL
+  - *mySql Work bench*
+* Vagrant
+  - *ubuntu 14.04 server*
 ## NPM installs
 * mySQL
 * inquirer
 * cli-table
+* dotenv
 
 # How to use
-* Clone repo onto your local machine & enter its the directory
-* run the command _vagrant up_ and once that is completed _vagrant ssh_
+* Clone repo onto your local machine & open CLI of your choosing
+* enter the cloned repos directory directory
+    - *Run in vagrant (Virtual Machine)*
+    - *Install VAGRANT/Virtualbox*
+    - *Once in the cloned repository*
+    - *run the command _vagrant up_ and once that is completed _vagrant ssh_*
+
 * then navigate to the code directory by running _cd /var/code/_
 * once in that directory you can begin testing the app by running _node bamazonStarter_
 
 * If you would like to test each page individually, run these commands
-* _node bamazonCustomer.js_   :: For Customer Page
-* _node bamazonManager.js_   :: For Manager Page
+* _node bamazonCustomer.js_    :: For Customer Page
+* _node bamazonManager.js_     :: For Manager Page
 * _node bamazonSupervisor.js_ :: For Supervisor Page
 
 
