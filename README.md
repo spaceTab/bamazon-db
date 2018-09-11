@@ -52,4 +52,4 @@
 
 
 ###### Developed by Jake Plaisted
-###### September of 2018
+###### In September of 2018
