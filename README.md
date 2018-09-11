@@ -36,6 +36,7 @@
 # How to use
 * Clone repo onto your local machine & open CLI of your choosing
 * enter the cloned repos directory directory
+    - *OPTIONAL*
     - *Run in vagrant (Virtual Machine)*
     - *Install VAGRANT/Virtualbox*
     - *Once in the cloned repository*
