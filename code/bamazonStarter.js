@@ -9,8 +9,8 @@ const inquirer   = require("inquirer");
 
 const connection = mysql.createConnection({
     host:     "localhost",
-    user:     "process.env.DB_USER", //root || if doesn't work
-    password: "process.env.DB_PASS",//SuperSecretPasswordHere || if not working
+    user:     "root",
+    password: "SuperSecretPasswordHere",
     database: "bamazon"
 });
 

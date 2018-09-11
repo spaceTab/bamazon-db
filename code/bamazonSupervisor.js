@@ -7,9 +7,9 @@ const Customer = require("./bamazonCustomer.js");
 let newDepartment = [];
 
 const connect = mysql.createConnection({
-    host: "localhost",
-    user: "process.env.DB_USER",  //root || if doesn't work
-    password: "process.env.DB_PASS", //SuperSecretPasswordHere || if doesn't work
+    host:    "localhost",
+    user:     "root",  //process.env.USR -> locking me out
+    password: "SuperSecretPasswordHere", //process.env.PASS -> locking me out
     database: "bamazon"
 });
 

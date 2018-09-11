@@ -1,4 +1,4 @@
-require("dotenv").config();
+require('dotenv').config();
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 const Table = require("cli-table");
@@ -7,8 +7,8 @@ const bamazon = require("./bamazonStarter.js");
 //Information needed to connect to DB
 const connection = mysql.createConnection({
     host:     "localhost",
-    user:     "process.env.DB_USER",
-    password: "process.env.DB_PASS",
+    user:     "root",
+    password: "SuperSecretPasswordHere",
     database: "bamazon"
 });
 
