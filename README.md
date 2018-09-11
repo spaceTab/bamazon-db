@@ -46,10 +46,10 @@
 * once in that directory you can begin testing the app by running _node bamazonStarter_
 
 * If you would like to test each page individually, run these commands
-* _node bamazonCustomer.js_    :: For Customer Page
+* _node bamazonCustomer.js_    :: For Customer Pagelike you wouldn't 
 * _node bamazonManager.js_     :: For Manager Page
 * _node bamazonSupervisor.js_ :: For Supervisor Page
 
-
-###### Developed by Jake Plaisted
+# Developed by
+###### Jake Plaisted
 ###### In September of 2018
