@@ -1,3 +1,4 @@
+require("dotenv").config();
 const inquirer = require("inquirer");
 const mysql = require("mysql");
 const Table = require("cli-table");
@@ -7,17 +8,10 @@ let newDepartment = [];
 
 const connect = mysql.createConnection({
     host: "localhost",
-    user: "root",//process.env.DB_USER,
-    password: "SuperSecretPasswordHere",//process.env.DB_PASS,
+    user: "process.env.DB_USER",  //root || if doesn't work
+    password: "process.env.DB_PASS", //SuperSecretPasswordHere || if doesn't work
     database: "bamazon"
 });
-
-// connect.connect(error => {
-//     if (error) throw error;
-
-//     console.log(`Connected - your ID ${connect.threadId}`);
-//     //DISPLAY_ALL();
-// })
 
 const SELECT = () => {
     inquirer.prompt([
@@ -47,6 +41,7 @@ const SELECT = () => {
 }
 
 const VIEW_SALES = () => {
+    // query dynamically adds the total profits column. 
     let query = `SELECT departments.department_id, departments.department_name, departments.overhead_cost, CASE WHEN SUM(products.product_sales) IS NULL THEN 0 ELSE SUM(products.product_sales) END AS product_sales FROM departments LEFT JOIN products ON departments.department_name = products.department_name GROUP BY departments.department_id, departments.department_name;`;
     //let query = `SELECT * FROM departments.department_id`
     connect.query(query, (err, results) => {

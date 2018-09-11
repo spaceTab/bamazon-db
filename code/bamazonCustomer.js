@@ -7,19 +7,10 @@ const bamazon = require("./bamazonStarter.js");
 //Information needed to connect to DB
 const connection = mysql.createConnection({
     host:     "localhost",
-    user:     "root",//process.env.DB_USER,
-    password: "SuperSecretPasswordHere",//process.env.DB_PASS,
+    user:     "process.env.DB_USER",
+    password: "process.env.DB_PASS",
     database: "bamazon"
 });
-
-// //Makes the connection to 'bamazon' database.
-// connection.connect(error => {
-//     if (error) throw error;
-
-//     console.log(`Connected - your ID ${connection.threadId}`);
-//     //DISPLAY_ALL();
-// });
-
 
 
 //function to display the populated table.

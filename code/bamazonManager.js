@@ -5,18 +5,14 @@ const Table = require("cli-table");
 
 
 const connect = mysql.createConnection({
-    host: "localhost",
-    port: "3306",
-    user: "root",//process.env.DB_USER,
-    password: "SuperSecretPasswordHere",//process.env.DB_PASS,
+    host:     "localhost",
+    port:     "3306",
+    user:     "process.env.DB_USER",
+    password: "process.env.DB_PASS",
     database: "bamazon"
 })
 
-// connect.connect(error => {
-//     if (error) throw error;
 
-//     console.log(`Connected at:${connect.threadID}`);
-// });
 
 const DISPLAY_TABLE = () => {
     connect.query(`SELECT * FROM products`, (error, response) => {

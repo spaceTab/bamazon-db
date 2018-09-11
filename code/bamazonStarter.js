@@ -1,4 +1,4 @@
-//const connect    = require("./connection.js");
+require("dotenv").config();
 const Customer   = require("./bamazonCustomer.js");
 const Manager    = require("./bamazonManager.js");
 const Supervisor = require("./bamazonSupervisor.js");
@@ -7,23 +7,14 @@ const Table      = require("cli-table");
 const inquirer   = require("inquirer");
 
 
-//I had to comment out the requires for the two files because for some reason,
-//when they are at the top it's immediately execuring those files, and then prompting the user.
-//but it no longer does that when inside the switch. It's the only fix I could find.
 const connection = mysql.createConnection({
     host:     "localhost",
-    user:     "root",//process.env.DB_USER,
-    password: "SuperSecretPasswordHere",//process.env.DB_PASS,
+    user:     "process.env.DB_USER", //root || if doesn't work
+    password: "process.env.DB_PASS",//SuperSecretPasswordHere || if not working
     database: "bamazon"
 });
 
-//Makes the connection to 'bamazon' database.
-// connection.connect(error => {
-//     if (error) throw error;
 
-//     console.log(`Connected - your ID ${connection.threadId}`);
- 
-// });
 
 const SELECT = () => {
     inquirer.prompt([
